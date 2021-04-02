@@ -34,11 +34,12 @@ def process_classes(classes, num_workers, failed_save_file, no_sound_save_file):
 
   for source_root, target_root in zip([config.TRAIN_ROOT, config.VALID_ROOT],
                                         [config.TRAIN_SOUND_ROOT, config.VALID_SOUND_ROOT]):
-
+    print(f"processing classes {classes}")
     pool = parallel.Pool(classes, source_root, target_root, num_workers, failed_save_file, no_sound_save_file)
     pool.start_workers()
     pool.feed_videos()
     pool.stop_workers()
+    print(f"done")
 
 def process_test_set(num_workers, failed_save_file, no_sound_save_file):
   """

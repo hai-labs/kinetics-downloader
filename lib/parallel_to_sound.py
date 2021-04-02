@@ -101,6 +101,10 @@ class Pool:
       self.failed_queue.put(None)
       self.failed_save_worker.join()
 
+    if self.no_sound_worker is not None:
+      self.no_sound_queue.put(None)
+      self.no_sound_worker.join()
+
 def sound_worker(videos_queue, failed_queue, no_sound_queue):
   """
   Process video files.
@@ -126,7 +130,7 @@ def sound_worker(videos_queue, failed_queue, no_sound_queue):
 
     if not video.video_has_sound(video_path):
       no_sound_queue.put(video_id)
-      return
+      continue
 
     if not video.video_to_sound(video_path, target_path):
       failed_queue.put(video_id)
